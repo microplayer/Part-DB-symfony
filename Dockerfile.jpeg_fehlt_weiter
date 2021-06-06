@@ -3,22 +3,19 @@ FROM php:7-apache
 
 # "apt-get u*/i* -y" - answer Yes (y) to the subsequent prompt (typically whether or not to continue after displaying the additional disk space that will be used)
 # Hinzufügen von VIM zum Ende, damit man zu Not im Image editieren kann
-RUN apt-get update &&  apt-get install -y pkg-config curl libcurl4-openssl-dev libicu-dev libpng-dev libjpeg-dev libfreetype6-dev gnupg zip libzip-dev libonig-dev libxslt-dev vim
+RUN apt-get update &&  apt-get install -y libfreetype6-dev curl libcurl4-openssl-dev libicu-dev libjpeg-dev libpng-dev gnupg zip libzip-dev libonig-dev libxslt-dev pkg-config vim && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd
+RUN docker-php-ext-install pdo_mysql curl intl mbstring bcmath zip xml xsl
 
+RUN docker-php-ext-install gd 
 # Extensions des PHP Interpreters hinzufügen, originale Bestandteile 06.06.2021
 # GD von hinten nach vorne verschoben
 # Damit JPEG Bilder funktionieren, das nachfolgende Kommando hinzugefügt und die Settings des Pakets "gd" verändert bzw. erweitert
 # Leider bringt das Ausführen des nachfolgenden Kommandos keine Änderung im laufenden Container 
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # Im laufenden Container zu prüfen mit: "RUN php -r 'var_dump(gd_info());' " - oder auch mit: "php -r 'print_r(gd_info());' "
 # Dort muss auch die Extension JPEG = True angezeigt werden.
 
-RUN php -r 'var_dump(gd_info());'
-
-RUN docker-php-ext-install pdo_mysql curl intl mbstring bcmath zip xml xsl
-
-RUN rm -rf /var/lib/apt/lists/*
 
 # Install yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
