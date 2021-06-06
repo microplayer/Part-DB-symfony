@@ -21,6 +21,7 @@ FROM php:7-apache
 # 4. Das Apache-Image hat keine Editor installiert, deshalb "vim" hinzugefügt - war bei Problemen mit der SQLite3-DB recht nützlich
 # 5. Es fanden sich Hinweise im Web, dass das Löschen von "/var/lib/apt/lists/*" evt. Ärger mit der Installation von "gd" macht - wird getestet...
 # 6. Zum Schluß noch die "apt-get" Installationsdateien entfernt - https://opensource.com/article/20/5/optimize-container-builds  
+# Das neue Image ist damit nur noch 944MB groß
 RUN apt-get update &&  apt-get install -y pkg-config curl libcurl4-openssl-dev libicu-dev \
     libpng-dev libjpeg-dev libfreetype6-dev gnupg zip libzip-dev libonig-dev libxslt-dev vim \
     && apt-get -y autoremove && apt-get clean autoclean && rm -rf /var/lib/apt/lists/*
