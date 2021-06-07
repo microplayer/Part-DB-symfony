@@ -29,7 +29,7 @@ RUN apt-get update &&  apt-get install -y pkg-config curl libcurl4-openssl-dev l
 # R.Zink: Dies sind die mit PHP7.4 nötigen geänderten Parameter für die Integration des JPEG-Formates
 # Ein Stolperstelle besteht darin, dass ZUERST der Install "docker-php-ext-configure gd" erfolgen muss, und DANN ERST "docker-php-ext-install gd"
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd
-# Der Erfolg lässt ich im laufenden Container prüfen: "RUN php -r 'var_dump(gd_info());' " - oder auch mit: "php -r 'print_r(gd_info());' "
+# Der Erfolg lässt sich im laufenden Container prüfen: "RUN php -r 'var_dump(gd_info());' " - oder auch mit: "php -r 'print_r(gd_info());' "
 # Dort muss auch die Extension JPEG = 1 = true angezeigt werden.
 
 # R.Zink: Nun folgt der Rest des Original-Dockerfiles - aus der nachfolgenden Zeile haben wir effektiv den "docker-php-ext-configure gd ..." VORGEZOGEN   
